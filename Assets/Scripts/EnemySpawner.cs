@@ -1,26 +1,71 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private Transform goalTarget;
-    [SerializeField] private float spawnInterval = 3f;
+    [Header("Spawning Settings")]
+    [SerializeField] private GameObject[] _enemyPrefabs;
+    [SerializeField] private Transform[] _spawnPoints;
+    [SerializeField] private Transform _goalTarget;
+    [SerializeField] private float _timeBetweenSpawns = 1.5f;
+    [SerializeField] private float _timeBetweenRounds = 5f;
+    [SerializeField] private int _enemiesIncrementPerRound = 2;
+    [SerializeField] private int _initialEnemiesPerRound = 3;
 
-    void Start()
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI _waveText;
+    [SerializeField] private float _waveTextDuration = 2f;
+
+    private int _currentRound = 1;
+
+    private void Start()
     {
-        StartCoroutine(SpawnEnemies());
+        StartCoroutine(SpawnRounds());
     }
 
-    IEnumerator SpawnEnemies()
+    private IEnumerator SpawnRounds()
     {
         while (true)
         {
-            int index = Random.Range(0, spawnPoints.Length);
-            GameObject enemy = Instantiate(enemyPrefab, spawnPoints[index].position, Quaternion.identity);
-            enemy.GetComponent<EnemyAI>().SetTarget(goalTarget); // aqui usamos GetComponent
-            yield return new WaitForSeconds(spawnInterval);
+            int enemiesThisRound = _initialEnemiesPerRound + (_enemiesIncrementPerRound * (_currentRound - 1));
+
+            if (_waveText != null)
+                StartCoroutine(ShowWaveText($"Wave {_currentRound}"));
+
+            Debug.Log($"Starting Wave {_currentRound} with {enemiesThisRound} enemies!");
+
+            for (int i = 0; i < enemiesThisRound; i++)
+            {
+                SpawnRandomEnemy();
+                yield return new WaitForSeconds(_timeBetweenSpawns);
+            }
+
+            _currentRound++;
+            yield return new WaitForSeconds(_timeBetweenRounds);
         }
+    }
+
+    private void SpawnRandomEnemy()
+    {
+        int enemyIndex = Random.Range(0, _enemyPrefabs.Length);
+        int spawnIndex = Random.Range(0, _spawnPoints.Length);
+
+        GameObject enemy = Instantiate(_enemyPrefabs[enemyIndex], _spawnPoints[spawnIndex].position, Quaternion.identity);
+
+        if (enemy.TryGetComponent<EnemyAI>(out var ai))
+        {
+            ai.SetTarget(_goalTarget);
+        }
+    }
+
+    private IEnumerator ShowWaveText(string message)
+    {
+        _waveText.text = message;
+        _waveText.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(_waveTextDuration);
+
+        _waveText.gameObject.SetActive(false);
     }
 }

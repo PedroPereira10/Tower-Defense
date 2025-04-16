@@ -4,7 +4,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float _speed = 10f;
     [SerializeField] private float _damage = 10f;
-    [SerializeField] private float _explosionRadius = 0f; // 0 = sem dano em área
+    [SerializeField] private float _explosionRadius = 0f; 
 
     private Transform _target;
 
@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
     {
         if (_target == null)
         {
-            Destroy(gameObject); // Se o inimigo morreu no meio do caminho
+            Destroy(gameObject); 
             return;
         }
 
@@ -53,8 +53,6 @@ public class Projectile : MonoBehaviour
                 enemy.TakeDamage(_damage);
             }
         }
-
-        // Destroi o projétil ao atingir o alvo
         Destroy(gameObject);
     }
 

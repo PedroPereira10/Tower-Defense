@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class TowerPlacementSystem : MonoBehaviour
@@ -76,23 +76,24 @@ public class TowerPlacementSystem : MonoBehaviour
     {
         GameObject tower = Instantiate(_towerToPlace, position, Quaternion.identity);
 
-        // Ativar script depois de construir
         MonoBehaviour[] scripts = tower.GetComponents<MonoBehaviour>();
         foreach (var script in scripts)
         {
             script.enabled = true;
         }
 
-        // Coloca na layer unbuildable
         tower.layer = LayerMask.NameToLayer("Unbuildable");
         foreach (Transform child in tower.transform)
         {
             child.gameObject.layer = LayerMask.NameToLayer("Unbuildable");
         }
 
+        GameAudioManager.Instance.PlayPlaceTower();
+
         _resourceManager.Spend(_towerCost);
         CancelPlacing();
     }
+
 
 
 

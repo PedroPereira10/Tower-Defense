@@ -1,12 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _health = 100f;
+    [SerializeField] private float _maxHealth = 100f;
+    [SerializeField] private int _damageToGoal = 1;
+    private float _health;
+    public int DamageToGoal => _damageToGoal;
 
-    public float Health => _health;
+
+    public float CurrentHealth => _health;
+    public float MaxHealth => _maxHealth;
+
+    private void Start()
+    {
+        _health = _maxHealth; 
+    }
 
     public void TakeDamage(float amount)
     {
@@ -22,4 +30,3 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 }
-

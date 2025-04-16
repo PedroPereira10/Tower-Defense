@@ -29,7 +29,7 @@ public class Tower : MonoBehaviour
         if (_currentTarget != null)
         {
             Debug.DrawLine(transform.position, _currentTarget.transform.position, Color.red);
-            Debug.Log("Atacando: " + _currentTarget.name);
+            Debug.Log("Atacking: " + _currentTarget.name);
         }
 
         if (_currentTarget != null)
@@ -45,6 +45,7 @@ public class Tower : MonoBehaviour
     {
         GameObject projectile = Instantiate(_projectilePrefab, _firePoint.position, Quaternion.identity);
         projectile.GetComponent<Projectile>().Initialize(_currentTarget.transform);
+        GameAudioManager.Instance.PlayArrowShot();
     }
 
     protected bool IsTargetInRange(Enemy enemy)

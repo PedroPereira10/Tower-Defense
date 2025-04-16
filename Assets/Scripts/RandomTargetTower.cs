@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomTargetTower : Tower
@@ -25,5 +24,10 @@ public class RandomTargetTower : Tower
 
         return null;
     }
-}
 
+    protected override void Shoot()
+    {
+        GameAudioManager.Instance.PlayFireballShot(); 
+        base.Shoot();
+    }
+}
