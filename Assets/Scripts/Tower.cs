@@ -44,9 +44,10 @@ public class Tower : MonoBehaviour
     protected virtual void Shoot()
     {
         GameObject projectile = Instantiate(_projectilePrefab, _firePoint.position, Quaternion.identity);
-        projectile.GetComponent<Projectile>().Initialize(_currentTarget.transform);
-        GameAudioManager.Instance.PlayArrowShot();
+        projectile.GetComponent<Projectile>().SetTarget(_currentTarget.transform);
     }
+
+
 
     protected bool IsTargetInRange(Enemy enemy)
     {

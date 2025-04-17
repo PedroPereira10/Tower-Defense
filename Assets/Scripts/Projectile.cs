@@ -1,59 +1,42 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float _speed = 10f;
     [SerializeField] private float _damage = 10f;
-    [SerializeField] private float _explosionRadius = 0f; 
 
     private Transform _target;
 
-    public void Initialize(Transform target)
+    public void SetTarget(Transform target)
     {
         _target = target;
     }
 
-    void Update()
+    private void Start()
+    {
+        transform.localScale = Vector3.one * 0.3f; // projétil pequeno
+    }
+
+    private void Update()
     {
         if (_target == null)
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
             return;
         }
 
-        Vector3 direction = (_target.position - transform.position).normalized;
+        // Move em linha reta até o inimigo
+        transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
 
-        transform.rotation = Quaternion.LookRotation(direction);
-
-        transform.position += direction * _speed * Time.deltaTime;
-
-        if (Vector3.Distance(transform.position, _target.position) < 0.3f)
-        {
-            HitTarget();
-        }
-    }
-
-    private void HitTarget()
-    {
-        if (_explosionRadius > 0f)
-        {
-            Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
-            foreach (var hit in hits)
-            {
-                if (hit.TryGetComponent<Enemy>(out var enemy))
-                {
-                    enemy.TakeDamage(_damage);
-                }
-            }
-        }
-        else
+        // Quando chega no alvo
+        if (Vector3.Distance(transform.position, _target.position) < 0.1f)
         {
             if (_target.TryGetComponent<Enemy>(out var enemy))
             {
                 enemy.TakeDamage(_damage);
             }
-        }
-        Destroy(gameObject);
-    }
 
+            Destroy(gameObject);
+        }
+    }
 }

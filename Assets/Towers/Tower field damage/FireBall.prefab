@@ -4774,7 +4774,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 96d221a033e54b8479dabf4f1c53c4f0, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9659,7 +9658,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 96d221a033e54b8479dabf4f1c53c4f0, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9724,4 +9722,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _damage: 30
-  _explosionRadius: 4
