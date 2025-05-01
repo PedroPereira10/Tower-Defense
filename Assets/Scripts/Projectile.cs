@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        transform.localScale = Vector3.one * 0.3f; // projétil pequeno
+        transform.localScale = Vector3.one * 0.3f; 
     }
 
     private void Update()
@@ -25,10 +25,10 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        // Move em linha reta até o inimigo
+        
         transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
 
-        // Quando chega no alvo
+        
         if (Vector3.Distance(transform.position, _target.position) < 0.1f)
         {
             if (_target.TryGetComponent<Enemy>(out var enemy))

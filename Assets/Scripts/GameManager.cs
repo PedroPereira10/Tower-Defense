@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private int _playerLives = 10;
     [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private GameObject _victoryPanel;
+    private bool _hasWon = false;
 
     public static GameManager Instance { get; private set; }
 
@@ -30,6 +32,17 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    public void WinGame()
+    {
+        if (_hasWon) return;
+        _hasWon = true;
+
+        Debug.Log("Victory!");
+        Time.timeScale = 0f;
+        GameAudioManager.Instance.PlayVictory();
+        _victoryPanel.SetActive(true);
     }
 
     public void GameOver()

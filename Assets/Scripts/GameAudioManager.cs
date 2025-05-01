@@ -7,6 +7,7 @@ public class GameAudioManager : MonoBehaviour
     [Header("Game Sounds")]
     [SerializeField] private AudioClip _startGameClip;
     [SerializeField] private AudioClip _gameOverClip;
+    [SerializeField] private AudioClip _victoryClip;
     [SerializeField] private AudioClip _diamondHitClip;
 
     [Header("Tower Sounds")]
@@ -42,6 +43,12 @@ public class GameAudioManager : MonoBehaviour
     {
         if (_gameOverClip != null)
             _audioSource.PlayOneShot(_gameOverClip);
+    }
+
+    public void PlayVictory()
+    {
+        if (_victoryClip != null)
+            _audioSource.PlayOneShot(_victoryClip);
     }
 
     public void PlayDiamondHit()

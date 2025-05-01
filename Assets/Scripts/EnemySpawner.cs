@@ -12,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _timeBetweenRounds = 5f;
     [SerializeField] private int _enemiesIncrementPerRound = 2;
     [SerializeField] private int _initialEnemiesPerRound = 3;
+    [SerializeField] private int _maxRounds = 5;
+
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI _waveText;
@@ -42,6 +44,15 @@ public class EnemySpawner : MonoBehaviour
             }
 
             _currentRound++;
+
+            _currentRound++;
+
+            if (_currentRound > _maxRounds)
+            {
+                GameManager.Instance.WinGame(); 
+                yield break;
+            }
+
             yield return new WaitForSeconds(_timeBetweenRounds);
         }
     }
